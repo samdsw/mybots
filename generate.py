@@ -12,7 +12,7 @@ def Create_World():
     # Modified coordinates
     x = -1
     y = 1
-    z = 0.5
+    z = 1.5
     pyrosim.Start_SDF("world.sdf")
     pyrosim.Send_Cube(name="Box", pos=[x, y, z], size=[length, width, height])
     pyrosim.End()
