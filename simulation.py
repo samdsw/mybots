@@ -30,8 +30,9 @@ class SIMULATION:
         for step in range(1000):
             p.stepSimulation()
             self.robot.sense(step)
+            self.robot.think()
             self.robot.act(step)
             time.sleep(.001)
-            print("poop")
+            # print("poop")
 
 
