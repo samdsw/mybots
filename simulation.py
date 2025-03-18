@@ -11,8 +11,11 @@ from robot import ROBOT
 
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, directOrGUI):
+        if directOrGUI == 'DIRECT':
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0,0,-9.8, self.physicsClient)
 
@@ -27,12 +30,15 @@ class SIMULATION:
         p.disconnect()
 
     def run(self):
-        for step in range(100):
+        for step in range(1000):
             p.stepSimulation()
             self.robot.sense(step)
             self.robot.think()
             self.robot.act(step)
-            time.sleep(.001)
+            # time.sleep(.001)
             # print("poop")
+
+    def get_fitness(self):
+        self.robot.get_fitness()
 
 
