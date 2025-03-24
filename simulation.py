@@ -11,7 +11,7 @@ from robot import ROBOT
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
         if directOrGUI == 'DIRECT':
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -19,7 +19,9 @@ class SIMULATION:
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0,0,-9.8, self.physicsClient)
 
-        self.robot = ROBOT()
+        self.solutionID = solutionID
+
+        self.robot = ROBOT(self.solutionID)
         self.world = WORLD()
 
         pyrosim.Prepare_To_Simulate(self.robot.robotId)
@@ -39,6 +41,7 @@ class SIMULATION:
             # print("poop")
 
     def get_fitness(self):
-        self.robot.get_fitness()
+        fitness =self.robot.get_fitness(self.solutionID)
+        print(fitness)
 
 

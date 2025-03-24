@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pyrosim.pyrosim as pyrosim
 import random
+import time
 
 # Base level points (unmodified)
 length = 1
@@ -12,28 +13,48 @@ y = 0
 z = .5
 
 class SOLUTION:
-    def __init__(self):
+    def __init__(self, nextAvailableID):
         self.weights = np.random.rand(3, 2)
         self.weights = self.weights * 2 - 1
+        self.myID = nextAvailableID
 
-    def Evaluate(self, mode, currentGeneration):
+    def evaluate(self, mode):
         self.Create_World()
         self.Generate_Body()
         self.Generate_Brain()
-        if currentGeneration == 0:
-            os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py GUI")
-        else:
-            os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode}")
-        with open("fitness.txt", "r") as file:
+
+        os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode}")
+
+        with open(f"fitness{str(self.myID)}.txt", "r") as file:
             self.fitness = float(file.read())
+
+    def start_simulation(self, mode):
+        self.Create_World()
+        self.Generate_Body()
+        self.Generate_Brain()
+        # mode = "GUI"
+
+        os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} 2&>1 &")
+        # NOT run in the background without &
+        # os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)}")
+
+
+    def wait_for_simulation_to_end(self):
+        while not os.path.exists(f"fitness{str(self.myID)}.txt"):
+            time.sleep(0.01)
+        with open(f"fitness{str(self.myID)}.txt", "r") as file:
+            self.fitness = float(file.read())
+        # print(f"Solution {self.myID} Fitness: {self.fitness}")
+        os.remove(f"fitness{str(self.myID)}.txt")
+
 
     def Create_World(self):
         # Modified coordinates
-        x = -1
-        y = 1
-        z = 1.5
+        self.x = -1
+        self.y = 1
+        self.z = 1.5
         pyrosim.Start_SDF("world.sdf")
-        pyrosim.Send_Cube(name="Box", pos=[x, y, z], size=[length, width, height])
+        pyrosim.Send_Cube(name="Box", pos=[self.x, self.y, self.z], size=[length, width, height])
         pyrosim.End()
 
     def Generate_Body(self):
@@ -48,7 +69,7 @@ class SOLUTION:
         pyrosim.End()
 
     def Generate_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="BackLeg")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLeg")
@@ -63,3 +84,7 @@ class SOLUTION:
         randRow = random.randint(0, 2)
         randCol = random.randint(0, 1)
         self.weights[randRow, randCol] = random.random() * 2 - 1
+
+    def set_id(self):
+        self.myID = self.nextAvailableID
+        self.nextAvailableID += 1  # Increment for the next assignment
