@@ -37,6 +37,7 @@ class SIMULATION:
             self.robot.sense(step)
             self.robot.think()
             self.robot.act(step)
+            # Comment out to speed up
             # time.sleep(.001)
             # print("poop")
 
