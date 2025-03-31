@@ -15,7 +15,7 @@ z = .5
 
 class SOLUTION:
     def __init__(self, nextAvailableID):
-        self.weights = np.random.rand(9, 8)
+        self.weights = (np.random.rand(c.NUM_SENSOR_NEURONS, c.NUM_MOTOR_NEURONS) * 2) - 1
         self.weights = self.weights * 2 - 1
         self.myID = nextAvailableID
 
@@ -114,7 +114,7 @@ class SOLUTION:
     def mutate(self):
         randRow = random.randint(0, c.NUM_SENSOR_NEURONS-1)
         randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
-        self.weights[randRow, randCol] = random.random() * 2 - 1
+        self.weights[randRow, randCol] = random.uniform(-1, 1)
 
     def set_id(self):
         self.myID = self.nextAvailableID
