@@ -137,7 +137,7 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_BackLeg2")
         pyrosim.Send_Motor_Neuron(name=16, jointName="BackLeg2_BackLowerLeg2")
 
-        # Front/Back Leg 2
+        # Front/Back Leg 3
         pyrosim.Send_Sensor_Neuron(name=17, linkName="FrontLeg3")
         pyrosim.Send_Sensor_Neuron(name=18, linkName="FrontLowerLeg3")
         pyrosim.Send_Motor_Neuron(name=19, jointName="Torso1_FrontLeg3")
