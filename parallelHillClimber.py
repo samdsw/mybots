@@ -56,10 +56,10 @@ class PARALLEL_HILL_CLIMBER:
         for key in self.parents:
             if self.parents[key].fitness < best.fitness:
                 best = self.parents[key]
-        best.start_simulation("GUI")
+        best.start_simulation("GUI", True)
 
     def evaluate(self, solutions):
         for key in solutions:
-            solutions[key].start_simulation(c.DIRECT_OR_GUI)
+            solutions[key].start_simulation(c.DIRECT_OR_GUI, False)
         for key in solutions:
             solutions[key].wait_for_simulation_to_end()

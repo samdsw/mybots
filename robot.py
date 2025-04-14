@@ -9,12 +9,13 @@ from sensor import SENSOR
 from motor import MOTOR
 
 class ROBOT:
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, isBest):
         self.sensors = None
         self.motors = None
         self.robotId = p.loadURDF("body.urdf")
         self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
-        os.system(f"rm brain{solutionID}.nndf")
+        if isBest == "False":
+            os.system(f"rm brain{solutionID}.nndf")
 
 
     def prepare_to_sense(self):
