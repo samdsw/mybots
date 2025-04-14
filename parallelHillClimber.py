@@ -3,16 +3,23 @@ import constants as c
 import copy
 import random
 import os
+import glob
 
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
-        os.system("rm /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/brain*.nndf")
-        os.system("rm /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/fitness*.txt")
+        self.cleanup_files("/Users/samwill/Documents/UVMSeniorClasses/S8/mybots/brain*.nndf")
+        self.cleanup_files("/Users/samwill/Documents/UVMSeniorClasses/S8/mybots/fitness*.txt")
         self.parents = {}
         self.nextAvailableID = 0
         for key in range(c.POPULATION_SIZE):
             self.parents[key] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
+
+    def cleanup_files(self, pattern):
+        files = sorted(glob.glob(pattern), key=os.path.getmtime)
+        # Keep the most recently modified file, delete the rest
+        for file in files[:-1]:
+            os.remove(file)
 
     def evolve(self):
         self.evaluate(self.parents)
@@ -46,6 +53,7 @@ class PARALLEL_HILL_CLIMBER:
                 self.parents[key].fitness = self.children[key].fitness
 
     def print(self):
+        # pass
         print(f"\n--------------------------------------")
         for key in self.parents:
             print(f"Parent: {self.parents[key].fitness}, Children: {self.children[key].fitness}")
@@ -63,3 +71,4 @@ class PARALLEL_HILL_CLIMBER:
             solutions[key].start_simulation(c.DIRECT_OR_GUI)
         for key in solutions:
             solutions[key].wait_for_simulation_to_end()
+
