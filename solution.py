@@ -115,40 +115,36 @@ class SOLUTION:
 
     def Generate_Brain(self):
         pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
-        # Sensor neurons (IDs 0–8)
+        # Sensor neurons (IDs will depend on your links)
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso1")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="FrontLeg1")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLowerLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=3, linkName="MiddleLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=4, linkName="MiddleLowerLeg1")
         pyrosim.Send_Sensor_Neuron(name=3, linkName="BackLeg1")
         pyrosim.Send_Sensor_Neuron(name=4, linkName="BackLowerLeg1")
         pyrosim.Send_Sensor_Neuron(name=5, linkName="FrontLeg2")
         pyrosim.Send_Sensor_Neuron(name=6, linkName="FrontLowerLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=9, linkName="MiddleLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=10, linkName="MiddleLowerLeg2")
         pyrosim.Send_Sensor_Neuron(name=7, linkName="BackLeg2")
         pyrosim.Send_Sensor_Neuron(name=8, linkName="BackLowerLeg2")
 
-        # Motor neurons (IDs 9–16)
-        # Left side motors
+        # Motor neurons: Left legs (front to back)
         pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_FrontLeg1")
         pyrosim.Send_Motor_Neuron(name=10, jointName="FrontLeg1_FrontLowerLeg1")
+        # pyrosim.Send_Motor_Neuron(name=8, jointName="Torso1_MiddleLeg1")
+        # pyrosim.Send_Motor_Neuron(name=9, jointName="MiddleLeg1_MiddleLowerLeg1")
         pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_BackLeg1")
         pyrosim.Send_Motor_Neuron(name=12, jointName="BackLeg1_BackLowerLeg1")
 
-        # Right side motors
+        # Motor neurons: Right legs (front to back)
         pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_FrontLeg2")
         pyrosim.Send_Motor_Neuron(name=14, jointName="FrontLeg2_FrontLowerLeg2")
+        # pyrosim.Send_Motor_Neuron(name=14, jointName="Torso1_MiddleLeg2")
+        # pyrosim.Send_Motor_Neuron(name=15, jointName="MiddleLeg2_MiddleLowerLeg2")
         pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_BackLeg2")
         pyrosim.Send_Motor_Neuron(name=16, jointName="BackLeg2_BackLowerLeg2")
-
-        # # Front/Back Leg 3
-        # pyrosim.Send_Sensor_Neuron(name=17, linkName="FrontLeg3")
-        # pyrosim.Send_Sensor_Neuron(name=18, linkName="FrontLowerLeg3")
-        # pyrosim.Send_Motor_Neuron(name=19, jointName="Torso1_FrontLeg3")
-        # pyrosim.Send_Motor_Neuron(name=20, jointName="FrontLeg3_FrontLowerLeg3")
-        # pyrosim.Send_Sensor_Neuron(name=21, linkName="BackLeg3")
-        # pyrosim.Send_Sensor_Neuron(name=22, linkName="BackLowerLeg3")
-        # pyrosim.Send_Motor_Neuron(name=23, jointName="Torso1_BackLeg3")
-        # pyrosim.Send_Motor_Neuron(name=24, jointName="BackLeg3_BackLowerLeg3")
-        # Synapses with mirrored weights
 
         # Changed loop to generate symmetric synapses
         for row in range(c.NUM_SENSOR_NEURONS):
