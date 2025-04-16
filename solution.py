@@ -170,8 +170,6 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=31, jointName="Torso1_LeftLeg4")
         pyrosim.Send_Motor_Neuron(name=32, jointName="LeftLeg4_LeftLowerLeg4")
 
-
-
         # Changed loop to generate symmetric synapses
         for row in range(c.NUM_SENSOR_NEURONS):
             #  Only left side
