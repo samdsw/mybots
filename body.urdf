@@ -25,7 +25,7 @@
        <parent link="Torso1"/>
        <child  link="RightLeg1"/>
        <origin rpy="0 0 0" xyz="-0.9 0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLeg1">
@@ -54,7 +54,7 @@
        <parent link="RightLeg1"/>
        <child  link="RightLowerLeg1"/>
        <origin rpy="0 0 0" xyz="0 1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLowerLeg1">
@@ -83,7 +83,7 @@
        <parent link="Torso1"/>
        <child  link="LeftLeg1"/>
        <origin rpy="0 0 0" xyz="-0.9 -0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLeg1">
@@ -112,7 +112,7 @@
        <parent link="LeftLeg1"/>
        <child  link="LeftLowerLeg1"/>
        <origin rpy="0 0 0" xyz="0 -1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLowerLeg1">
@@ -141,7 +141,7 @@
        <parent link="Torso1"/>
        <child  link="RightLeg2"/>
        <origin rpy="0 0 0" xyz="0 0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLeg2">
@@ -170,7 +170,7 @@
        <parent link="RightLeg2"/>
        <child  link="RightLowerLeg2"/>
        <origin rpy="0 0 0" xyz="0 1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLowerLeg2">
@@ -199,7 +199,7 @@
        <parent link="Torso1"/>
        <child  link="LeftLeg2"/>
        <origin rpy="0 0 0" xyz="0 -0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLeg2">
@@ -228,7 +228,7 @@
        <parent link="LeftLeg2"/>
        <child  link="LeftLowerLeg2"/>
        <origin rpy="0 0 0" xyz="0 -1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLowerLeg2">
@@ -257,7 +257,7 @@
        <parent link="Torso1"/>
        <child  link="RightLeg3"/>
        <origin rpy="0 0 0" xyz="0.9 0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLeg3">
@@ -286,7 +286,7 @@
        <parent link="RightLeg3"/>
        <child  link="RightLowerLeg3"/>
        <origin rpy="0 0 0" xyz="0 1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="RightLowerLeg3">
@@ -315,7 +315,7 @@
        <parent link="Torso1"/>
        <child  link="LeftLeg3"/>
        <origin rpy="0 0 0" xyz="0.9 -0.5 1" />
-       <axis xyz="1 1 0"/>
+       <axis xyz="1 0 1"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLeg3">
@@ -344,7 +344,7 @@
        <parent link="LeftLeg3"/>
        <child  link="LeftLowerLeg3"/>
        <origin rpy="0 0 0" xyz="0 -1 0" />
-       <axis xyz="1 0 0"/>
+       <axis xyz="0 1 0"/>
        <limit effort="0.0" lower="-3.14159" upper="3.14159" velocity="0.0"/>
     </joint>
     <link name="LeftLowerLeg3">

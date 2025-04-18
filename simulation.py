@@ -32,7 +32,7 @@ class SIMULATION:
         p.disconnect()
 
     def run(self):
-        for step in range(1000):
+        for step in range(c.TIME):
             p.stepSimulation()
             self.robot.sense(step)
             self.robot.think()
