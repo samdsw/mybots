@@ -3,6 +3,7 @@ import constants as c
 import copy
 import random
 import os
+import time
 
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
@@ -13,6 +14,8 @@ class PARALLEL_HILL_CLIMBER:
         for key in range(c.POPULATION_SIZE):
             self.parents[key] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
+        self.start_time = time.time()
+
 
     def evolve(self):
         self.evaluate(self.parents)
@@ -49,6 +52,8 @@ class PARALLEL_HILL_CLIMBER:
         print(f"\n--------------------------------------")
         for key in self.parents:
             print(f"Parent: {self.parents[key].fitness}, Children: {self.children[key].fitness}")
+        simulation_time = max(0.001, time.time() - self.start_time)
+        print(simulation_time)
         print("--------------------------------------\n")
 
     def show_best(self):
