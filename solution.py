@@ -38,7 +38,7 @@ class SOLUTION:
 
         os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} {isBest} 2&>1 &")
         # NOT run in the background without &
-        # os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)}")
+        # os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} {isBest}")
 
 
     def wait_for_simulation_to_end(self):
@@ -170,34 +170,47 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=31, jointName="Torso1_LeftLeg4")
         pyrosim.Send_Motor_Neuron(name=32, jointName="LeftLeg4_LeftLowerLeg4")
 
-        # Changed loop to generate symmetric synapses
-        for row in range(c.NUM_SENSOR_NEURONS):
-            #  Only left side
-            for col in range(c.NUM_MOTOR_NEURONS // 2):
-                left_weight = self.weights[row][col]
+        # Original loop
+        for currentRow in range(0, c.NUM_SENSOR_NEURONS-1):  # iterating over sensors
+            # check on this it might be wrong
+            for currentColumn in range(0, c.NUM_MOTOR_NEURONS-1):  # iterating over motors
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+                                     targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
+                                     weight=self.weights[currentRow][currentColumn])
 
-                # Mirror column for right side for symmetry
-                right_col = c.NUM_MOTOR_NEURONS - 1 - col
-                right_weight = -left_weight
-
-                # Send to left motor neuron
-                pyrosim.Send_Synapse(sourceNeuronName=row, targetNeuronName=col + c.NUM_SENSOR_NEURONS,
-                                     weight=left_weight)
-
-                # Send to mirrored right motor neuron
-                pyrosim.Send_Synapse(
-                    sourceNeuronName=row, targetNeuronName=right_col + c.NUM_SENSOR_NEURONS, weight=right_weight)
+        # # Changed loop to generate symmetric synapses
+        # for row in range(c.NUM_SENSOR_NEURONS):
+        #     #  Only left side
+        #     for col in range(c.NUM_MOTOR_NEURONS // 2):
+        #         left_weight = self.weights[row][col]
+        #
+        #         # Mirror column for right side for symmetry
+        #         right_col = c.NUM_MOTOR_NEURONS - 1 - col
+        #         right_weight = -left_weight
+        #
+        #         # Send to left motor neuron
+        #         pyrosim.Send_Synapse(sourceNeuronName=row, targetNeuronName=col + c.NUM_SENSOR_NEURONS,
+        #                              weight=left_weight)
+        #
+        #         # Send to mirrored right motor neuron
+        #         pyrosim.Send_Synapse(
+        #             sourceNeuronName=row, targetNeuronName=right_col + c.NUM_SENSOR_NEURONS, weight=right_weight)
         pyrosim.End()
+
+    # def mutate(self):
+    #     randRow = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
+    #     # Only pick from the left side motors
+    #     randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
+    #     # Mutate the weight for the left side
+    #     self.weights[randRow, randCol] = random.uniform(-1, 1)
+    #     # Mirroring for right side
+    #     rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
+    #     self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
 
     def mutate(self):
         randRow = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
-        # Only pick from the left side motors
-        randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
-        # Mutate the weight for the left side
-        self.weights[randRow, randCol] = random.uniform(-1, 1)
-        # Mirroring for right side
-        rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
-        self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
+        randCol = random.randint(0, c.NUM_MOTOR_NEURONS - 1)
+        self.weights[randRow, randCol] = ((random.random() * 2) - 1)
 
     def set_id(self, newID):
         self.myID = newID
