@@ -5,6 +5,7 @@ import random
 import os
 import time
 
+
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
         os.system("rm /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/brain*.nndf")
@@ -18,6 +19,7 @@ class PARALLEL_HILL_CLIMBER:
 
 
     def evolve(self):
+        print("evaluating")
         self.evaluate(self.parents)
         for currentGeneration in range(c.NUMBER_OF_GENERATIONS):
             self.evolve_for_one_generation()

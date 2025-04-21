@@ -20,9 +20,9 @@ URDF_FILETYPE = 1
 
 NNDF_FILETYPE   = 2
 
-# global availableLinkIndex
+global availableLinkIndex
 
-# global linkNamesToIndices
+global linkNamesToIndices
 
 def End():
 
@@ -134,15 +134,17 @@ def Send_Cube(name="default",pos=[0,0,0],size=[1,1,1]):
 
     availableLinkIndex = availableLinkIndex + 1
 
-def Send_Joint(name,parent,child,type,position):
+def Send_Joint(name,parent,child,type,position,jointAxis):
 
     joint = JOINT(name,parent,child,type,position)
 
-    joint.Save(f)
+    joint.Save(f,jointAxis)
 
-def Send_Motor_Neuron(name,jointName):
-
-    f.write('    <neuron name = "' + str(name) + '" type = "motor"  jointName = "' + jointName + '" />\n')
+def Send_Motor_Neuron(name, jointName, function=None):
+    if function:
+        f.write(f'    <neuron name="{str(name)}" type="motor" jointName="{jointName}" function="{function}" />\n')
+    else:
+        f.write(f'    <neuron name="{str(name)}" type="motor" jointName="{jointName}" />\n')
 
 def Send_Sensor_Neuron(name,linkName):
 

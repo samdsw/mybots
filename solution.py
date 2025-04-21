@@ -21,9 +21,13 @@ class SOLUTION:
         self.myID = nextAvailableID
 
     def evaluate(self, mode):
+        print("creating world")
         self.Create_World()
+        print("Creating Body")
         self.Generate_Body()
+        print("Creating Brain")
         self.Generate_Brain()
+        print("All parts created")
 
         os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode}")
 
@@ -155,7 +159,7 @@ class SOLUTION:
         # Only pick from the left side motors
         randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
         # Mutate the weight for the left side
-        self.weights[randRow, randCol] = random.random()*2-1
+        self.weights[randRow, randCol] = random.uniform(-1, 1)
         # Mirroring for right side
         # MIGHT NEED TO CHANGE
         rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
