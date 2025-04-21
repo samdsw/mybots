@@ -55,7 +55,7 @@ class ROBOT:
 
 
     def get_fitness(self, solutionID):
-        # Core position/time metrics
+        # ----- Core position/time metrics -----
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         xPosition = basePositionAndOrientation[0]
 
@@ -64,7 +64,7 @@ class ROBOT:
         # Base speed reward
         fitness = xPosition / sim_time
 
-        # Leg contact detection
+        # ----- Leg contact detection -----
         propulsion_reward = 0.0
         baseVelocity, _ = p.getBaseVelocity(self.robotId)
         # active_legs = []
@@ -75,7 +75,7 @@ class ROBOT:
 
         fitness += propulsion_reward
 
-        # Tilt penalty
+        # ----- Tilt penalty -----
         _, orientation = p.getBasePositionAndOrientation(self.robotId)
         roll, pitch, _ = p.getEulerFromQuaternion(orientation)
         tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
