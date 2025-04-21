@@ -105,7 +105,7 @@ class ROBOT:
 
         fitness -= tilt_penalty
 
-        # ----- Air/gorund time penalties -----
+        # ----- Air/ground time penalties -----
 
         # Initialize penalties
         air_time_penalty = 0.0
