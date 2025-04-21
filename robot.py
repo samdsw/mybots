@@ -70,7 +70,7 @@ class ROBOT:
         baseVelocity, _ = p.getBaseVelocity(self.robotId)
         active_legs = []
         current_time = time.time() - self.start_time
-        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2", "RightLowerLeg3", "LeftLowerLeg3"]:
+        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]:
             contact = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
             # Sensor object
             sensor = self.sensors[leg_name]

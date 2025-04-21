@@ -67,5 +67,6 @@ class PARALLEL_HILL_CLIMBER:
     def evaluate(self, solutions):
         for key in solutions:
             solutions[key].start_simulation(c.DIRECT_OR_GUI, False)
-        for key in solutions:
+        # Comment out for sequential
+        for key in solutions: # This allows for parallel
             solutions[key].wait_for_simulation_to_end()
