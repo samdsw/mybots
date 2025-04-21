@@ -96,81 +96,6 @@ class SOLUTION:
                            position=[0, -1, 0], jointAxis="0 1 0")
         pyrosim.Send_Cube(name="LeftLowerLeg2", pos=[0, 0, -0.5], size=[.2, .2, 1])
 
-
-            # joints diff
-        # pyrosim.Send_Cube(name="Torso1", pos=[-0.25, 0, 1.5], size=[2, 1, .4])
-        #
-        # # Front Leg 1
-        # pyrosim.Send_Joint(name="Torso1_FrontLeg1", parent="Torso1", child="FrontLeg1", type="revolute",
-        #                    position=[-0.90, 0.5, 1.5], jointAxis = "1 0 1")
-        # pyrosim.Send_Cube(name="FrontLeg1", pos=[0, 0.5, 0], size=[.2, 1, .2])
-        # pyrosim.Send_Joint(name="FrontLeg1_FrontLowerLeg1", parent="FrontLeg1", child="FrontLowerLeg1", type="revolute",
-        #                    position=[0, 1, 0], jointAxis="0 1 0")
-        # pyrosim.Send_Cube(name="FrontLowerLeg1", pos=[0, 0, -0.75], size=[.2, .2, 1.5])
-        #
-        # # back Leg 1
-        # pyrosim.Send_Joint(name="Torso1_BackLeg1", parent="Torso1", child="BackLeg1", type="revolute",
-        #                    position=[-0.90, -0.5, 1.5], jointAxis = "1 0 1")
-        # pyrosim.Send_Cube(name="BackLeg1", pos=[0, -0.5, 0], size=[.2, 1, .2])
-        # pyrosim.Send_Joint(name="BackLeg1_BackLowerLeg1", parent="BackLeg1", child="BackLowerLeg1", type="revolute",
-        #                    position=[0, -1, 0], jointAxis="0 1 0")
-        # pyrosim.Send_Cube(name="BackLowerLeg1", pos=[0, 0, -0.75], size=[.2, .2, 1.5])
-        #
-        # # Front Leg 2
-        # pyrosim.Send_Joint(name="Torso1_FrontLeg2", parent="Torso1", child="FrontLeg2", type="revolute",
-        #                    position=[0.4, 0.5, 1.5], jointAxis = "1 0 1")
-        # pyrosim.Send_Cube(name="FrontLeg2", pos=[0, 0.5, 0], size=[.2, 1, .2])
-        # pyrosim.Send_Joint(name="FrontLeg2_FrontLowerLeg2", parent="FrontLeg2", child="FrontLowerLeg2", type="revolute",
-        #                    position=[0, 1, 0], jointAxis="0 1 0")
-        # pyrosim.Send_Cube(name="FrontLowerLeg2", pos=[0, 0, -0.75], size=[.2, .2, 1.5])
-        #
-        # # Back Leg 2
-        # pyrosim.Send_Joint(name="Torso1_BackLeg2", parent="Torso1", child="BackLeg2", type="revolute",
-        #                    position=[0.4, -0.5, 1.5], jointAxis="1 0 1")
-        # pyrosim.Send_Cube(name="BackLeg2", pos=[0, -0.5, 0], size=[.2, 1, .2])
-        # pyrosim.Send_Joint(name="BackLeg2_BackLowerLeg2", parent="BackLeg2", child="BackLowerLeg2", type="revolute",
-        #                    position=[0, -1, 0], jointAxis="0 1 0")
-        # pyrosim.Send_Cube(name="BackLowerLeg2", pos=[0, 0, -0.75], size=[.2, .2, 1.5])
-
-
-            # ORIGIONAL BEFORE LEGS CHANGED
-            # pyrosim.Start_URDF("body.urdf")
-            # # Torsos
-            # pyrosim.Send_Cube(name="Torso1", pos=[-0.25, 0, 1], size=[2, 1, .4])
-            #
-            # # Front Leg 1
-            # pyrosim.Send_Joint(name="Torso1_FrontLeg1", parent="Torso1", child="FrontLeg1", type="revolute",
-            #                    position=[-0.90, 0.5, 1], jointAxis="1 0 0")
-            # pyrosim.Send_Cube(name="FrontLeg1", pos=[0, 0.5, 0], size=[.2, 1, .2])
-            # pyrosim.Send_Joint(name="FrontLeg1_FrontLowerLeg1", parent="FrontLeg1", child="FrontLowerLeg1",
-            #                    type="revolute",
-            #                    position=[0, 1, 0], jointAxis="0 1 0")
-            # pyrosim.Send_Cube(name="FrontLowerLeg1", pos=[0, 0, -0.5], size=[.2, .2, 1])
-            #
-            # # back Leg 1
-            # pyrosim.Send_Joint(name="Torso1_BackLeg1", parent="Torso1", child="BackLeg1", type="revolute",
-            #                    position=[-0.90, -0.5, 1], jointAxis="1 0 0")
-            # pyrosim.Send_Cube(name="BackLeg1", pos=[0, -0.5, 0], size=[.2, 1, .2])
-            # pyrosim.Send_Joint(name="BackLeg1_BackLowerLeg1", parent="BackLeg1", child="BackLowerLeg1", type="revolute",
-            #                    position=[0, -1, 0], jointAxis="0 1 0")
-            # pyrosim.Send_Cube(name="BackLowerLeg1", pos=[0, 0, -0.5], size=[.2, .2, 1])
-            #
-            # # Front Leg 2
-            # pyrosim.Send_Joint(name="Torso1_FrontLeg2", parent="Torso1", child="FrontLeg2", type="revolute",
-            #                    position=[0, 0.5, 1], jointAxis="1 0 0")
-            # pyrosim.Send_Cube(name="FrontLeg2", pos=[0, 0.5, 0], size=[.2, 1, .2])
-            # pyrosim.Send_Joint(name="FrontLeg2_FrontLowerLeg2", parent="FrontLeg2", child="FrontLowerLeg2",
-            #                    type="revolute",
-            #                    position=[0, 1, 0], jointAxis="0 1 0")
-            # pyrosim.Send_Cube(name="FrontLowerLeg2", pos=[0, 0, -0.5], size=[.2, .2, 1])
-            #
-            # # Back Leg 2
-            # pyrosim.Send_Joint(name="Torso1_BackLeg2", parent="Torso1", child="BackLeg2", type="revolute",
-            #                    position=[0, -0.5, 1], jointAxis="1 0 0")
-            # pyrosim.Send_Cube(name="BackLeg2", pos=[0, -0.5, 0], size=[.2, 1, .2])
-            # pyrosim.Send_Joint(name="BackLeg2_BackLowerLeg2", parent="BackLeg2", child="BackLowerLeg2", type="revolute",
-            #                    position=[0, -1, 0], jointAxis="0 1 0")
-            # pyrosim.Send_Cube(name="BackLowerLeg2", pos=[0, 0, -0.5], size=[.2, .2, 1])
         pyrosim.End()
 
     def Generate_Brain(self):
@@ -198,6 +123,15 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
         pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
 
+        # # Changed loop to generate symmetric synapses
+        # for currentRow in range(0, c.NUM_SENSOR_NEURONS):  # iterating over sensors
+        #     # check on this it might be wrong
+        #     for currentColumn in range(0, c.NUM_MOTOR_NEURONS):  # iterating over motors\
+        #         pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+        #                              targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
+        #                              weight=self.weights[currentRow][currentColumn])
+
+
         # Changed loop to generate symmetric synapses
         for row in range(c.NUM_SENSOR_NEURONS):
             #  Only left side
@@ -221,10 +155,13 @@ class SOLUTION:
         # Only pick from the left side motors
         randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
         # Mutate the weight for the left side
-        self.weights[randRow, randCol] = random.uniform(-1, 1)
+        self.weights[randRow, randCol] = random.random()*2-1
         # Mirroring for right side
+        # MIGHT NEED TO CHANGE
         rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
         self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
+
+        # Try mutating specific sensors a second time
 
     def set_id(self, newID):
         self.myID = newID

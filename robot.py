@@ -64,23 +64,23 @@ class ROBOT:
         # Base speed reward
         fitness = xPosition / sim_time
 
-        # ----- Leg contact detection -----
-        propulsion_reward = 0.0
-        baseVelocity, _ = p.getBaseVelocity(self.robotId)
-        # active_legs = []
-        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]:
-            if pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name) > 0.5:
-                propulsion_reward += max(0, baseVelocity[0]) * 0.8
-                # active_legs.append(leg_name)
-
-        fitness += propulsion_reward
-
-        # ----- Tilt penalty -----
-        _, orientation = p.getBasePositionAndOrientation(self.robotId)
-        roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
-
-        fitness -= tilt_penalty
+        # # ----- Leg contact detection -----
+        # propulsion_reward = 0.0
+        # baseVelocity, _ = p.getBaseVelocity(self.robotId)
+        # # active_legs = []
+        # for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]:
+        #     if pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name) > 0.5:
+        #         propulsion_reward += max(0, baseVelocity[0]) * 0.8
+        #         # active_legs.append(leg_name)
+        #
+        # fitness += propulsion_reward
+        #
+        # # ----- Tilt penalty -----
+        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
+        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        # tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
+        #
+        # fitness -= tilt_penalty
 
 
 
