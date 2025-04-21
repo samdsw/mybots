@@ -5,12 +5,16 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
 import constants as c
 import time
+import numpy as np
 
 from sensor import SENSOR
 from motor import MOTOR
 
 class ROBOT:
     def __init__(self, solutionID, isBest):
+
+        self.foot_links_identified = None
+
         self.sensors = None
         self.motors = None
         self.robotId = p.loadURDF("body.urdf")
@@ -18,17 +22,6 @@ class ROBOT:
         self.start_time = time.time()
         if isBest == "False":
             os.system(f"rm brain{solutionID}.nndf")
-
-        # Print joint info on creation
-        if c.PRINT_JOINT_INFO:  # Add this to constants.py
-            self.print_joint_info()
-
-    def print_joint_info(self):
-        print("\n=== JOINT/LINK INDEX MAPPING ===")
-        for i in range(p.getNumJoints(self.robotId)):
-            joint_info = p.getJointInfo(self.robotId, i)
-            print(f"Index {i}: {joint_info[12].decode('utf-8')} (Type: {joint_info[2]})")
-        print("===\n")
 
     def prepare_to_sense(self):
         self.sensors = {}
@@ -58,73 +51,53 @@ class ROBOT:
 
     def think(self):
         self.nn.Update()
-
         # self.nn.Print()
 
-    # def get_fitness(self, solutionID):
-    #     basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
-    #     basePosition = basePositionAndOrientation[0]
-    #     xPosition = basePosition[0]
-    #     simulation_time = time.time() - self.start_time
-    #     if (simulation_time != 0):
-    #         fitness = xPosition / simulation_time
-    #     else:
-    #         fitness = xPosition / .000001
-    #     # Writes robots final horizontal position to fitness.txt
-    #     with open(f"tmp{solutionID}.txt", "w") as file:
-    #         file.write(str(fitness))
-    #     os.system(f"mv tmp{solutionID}.txt fitness{solutionID}.txt")
 
-    # Fitness with speed and propultion
-    # def get_fitness(self, solutionID):
-    #     # Position and time variables for fitness
-    #     basePosition, _ = p.getBasePositionAndOrientation(self.robotId)
-    #     xPosition = basePosition[0]
-    #     simulation_time = max(0.001, time.time() - self.start_time)  # Prevent division by zero
-    #     # Base fitness == distnance/time
-    #     fitness = xPosition / simulation_time
-    #
-    #     # Add propulsion rewards
-    #     baseVelocity, _ = p.getBaseVelocity(self.robotId)
-    #     x_velocity = baseVelocity[0]
-    #
-    #     # Reward good ground contact
-    #     propulsion_reward = 0.0
-    #     foot_links = [2, 4, 6, 8]  # Replace with your foot link indices
-    #     for foot in foot_links:
-    #         contacts = p.getContactPoints(bodyA=self.robotId, linkIndexA=foot)
-    #         if contacts:
-    #             # Reward forward velocity during contact
-    #             propulsion_reward += x_velocity * 0.5
-    #
-    #     # Stability penalty (NEW)
-    #     orientation = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.robotId)[1])
-    #     tilt_penalty = abs(orientation[0]) + abs(orientation[1])  # Roll + pitch
-    #
-    #     # Energy efficiency (NEW)
-    #     motor_energy = sum(abs(p.getJointState(self.robotId, i)[3]) for i in range(p.getNumJoints(self.robotId)))
-    #
-    #     # Combined fitness (adjust weights as needed)
-    #     fitness += propulsion_reward * 2.0  # Emphasize pushing
-    #     fitness -= tilt_penalty * 0.3  # Discourage tipping
-    #     fitness -= motor_energy * 0.01  # Slightly penalize energy use
-    #
-    #     # Write to file
-    #     with open(f"tmp{solutionID}.txt", "w") as file:
-    #         file.write(str(fitness))
-    #     os.system(f"mv tmp{solutionID}.txt fitness{solutionID}.txt")
-
-    # OG
     def get_fitness(self, solutionID):
+        # Core position/time metrics
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
         xPosition = basePosition[0]
 
-        # Rewarding for faster robot (preventing division by 0)
-        simulation_time = max(0.001, time.time() - self.start_time)
-        fitness = xPosition / simulation_time
+        sim_time = max(0.001, time.time() - self.start_time)
 
-        # Writes robots final horizontal position to fitness.txt
+        # Base speed reward
+        fitness = xPosition / sim_time
+
+        # Leg contact detection
+        propulsion_reward = 0.0
+        baseVelocity, _ = p.getBaseVelocity(self.robotId)
+        active_legs = []
+        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2", "RightLowerLeg3", "LeftLowerLeg3"]:
+            if pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name) > 0.5:
+                propulsion_reward += max(0, baseVelocity[0]) * 0.8
+                active_legs.append(leg_name)
+
+        fitness += propulsion_reward
+
+        # Tilt penalty
+        _, orientation = p.getBasePositionAndOrientation(self.robotId)
+        roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
+
+        fitness -= tilt_penalty
+
+        # Reward diagonal gait (trot)
+        if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
+                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs):
+            fitness += 0.3
+
+        # # To penalize for mor than 3 legs are grounded for trot gait
+        # if sum(pyrosim.Get_Touch_Sensor_Value_For_Link(leg) > 0.5 for leg in self.sensors) > 3:
+        #     fitness -= 0.3
+
+        # Penalize if diagonal legs are both off the ground
+        # if (pyrosim.Get_Touch_Sensor_Value_For_Link("RightLowerLeg1") < 0.5 and
+        #         pyrosim.Get_Touch_Sensor_Value_For_Link("LeftLowerLeg2") < 0.5):
+        #     fitness -= 0.4  # Loss of diagonal stability
+
+        # Writes robots final fitness position to fitness.txt
         with open(f"tmp{solutionID}.txt", "w") as file:
             file.write(str(fitness))
         os.system(f"mv tmp{solutionID}.txt fitness{solutionID}.txt")

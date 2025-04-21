@@ -3,7 +3,6 @@ import constants as c
 import copy
 import random
 import os
-from robot import ROBOT
 import time
 
 
@@ -52,19 +51,11 @@ class PARALLEL_HILL_CLIMBER:
 
     def print(self):
         print(f"\n--------------------------------------")
-        simulation_time = max(0.001, time.time() - self.start_time)  # Prevent division by zero
-        print(simulation_time)
         for key in self.parents:
             print(f"Parent: {self.parents[key].fitness}, Children: {self.children[key].fitness}")
+        simulation_time = max(0.001, time.time() - self.start_time)
+        print(simulation_time)
         print("--------------------------------------\n")
-        # # Print joint info from first parent's robot
-        # if hasattr(self.parents[0], 'robot'):
-        #     print("\n=== JOINT/LINK INDEX MAPPING ===")
-        #     robot = self.parents[0].robot  # Assuming SOLUTION holds a ROBOT instance
-        #     for i in range(p.getNumJoints(robot.robotId)):
-        #         joint_info = p.getJointInfo(robot.robotId, i)
-        #         print(f"Index {i}: {joint_info[12].decode('utf-8')} (Type: {joint_info[2]})")
-        #     print("===\n")
 
     def show_best(self):
         best = self.parents[0]
