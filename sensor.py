@@ -7,6 +7,11 @@ class SENSOR:
     def __init__(self, linkName):
         self.linkName = linkName
         self.values = np.zeros(c.TIME)
+        # Last time sensor was on gorund
+        self.last_contact_time = 0.0
+        # Time when contact was lost
+        self.last_air_time = 0.0
+
 
 
     def get_value(self, step):
