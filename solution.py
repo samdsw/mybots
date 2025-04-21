@@ -111,31 +111,31 @@ class SOLUTION:
         pyrosim.Send_Sensor_Neuron(name=7, linkName="LeftLeg2")
         pyrosim.Send_Sensor_Neuron(name=8, linkName="LeftLowerLeg2")
 
-        pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_RightLeg1")
-        pyrosim.Send_Motor_Neuron(name=10, jointName="RightLeg1_RightLowerLeg1")
-        pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_RightLeg2")
-        pyrosim.Send_Motor_Neuron(name=12, jointName="RightLeg2_RightLowerLeg2")
-
-        pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_LeftLeg1")
-        pyrosim.Send_Motor_Neuron(name=14, jointName="LeftLeg1_LeftLowerLeg1")
-        pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
-        pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
-
-
         # pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_RightLeg1")
         # pyrosim.Send_Motor_Neuron(name=10, jointName="RightLeg1_RightLowerLeg1")
-        # pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_LeftLeg1")
-        # pyrosim.Send_Motor_Neuron(name=12, jointName="LeftLeg1_LeftLowerLeg1")
+        # pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_RightLeg2")
+        # pyrosim.Send_Motor_Neuron(name=12, jointName="RightLeg2_RightLowerLeg2")
         #
-        # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg2")
-        # pyrosim.Send_Motor_Neuron(name=14, jointName="RightLeg2_RightLowerLeg2")
+        # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_LeftLeg1")
+        # pyrosim.Send_Motor_Neuron(name=14, jointName="LeftLeg1_LeftLowerLeg1")
         # pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
         # pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
 
-        # Changed loop to generate symmetric synapses
-        for currentRow in range(0, c.NUM_SENSOR_NEURONS):  # iterating over sensors
+
+        pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_RightLeg1")
+        pyrosim.Send_Motor_Neuron(name=10, jointName="RightLeg1_RightLowerLeg1")
+        pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_LeftLeg1")
+        pyrosim.Send_Motor_Neuron(name=12, jointName="LeftLeg1_LeftLowerLeg1")
+
+        pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg2")
+        pyrosim.Send_Motor_Neuron(name=14, jointName="RightLeg2_RightLowerLeg2")
+        pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
+        pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
+
+        # Original loop
+        for currentRow in range(0, c.NUM_SENSOR_NEURONS-1):  # iterating over sensors
             # check on this it might be wrong
-            for currentColumn in range(0, c.NUM_MOTOR_NEURONS):  # iterating over motors\
+            for currentColumn in range(0, c.NUM_MOTOR_NEURONS-1):  # iterating over motors
                 pyrosim.Send_Synapse(sourceNeuronName=currentRow,
                                      targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
                                      weight=self.weights[currentRow][currentColumn])
@@ -158,15 +158,20 @@ class SOLUTION:
         #             sourceNeuronName=row, targetNeuronName=right_col + c.NUM_SENSOR_NEURONS,weight=right_weight)
         pyrosim.End()
 
+    # def mutate(self):
+    #     randRow = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
+    #     # Only pick from the left side motors
+    #     randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
+    #     # Mutate the weight for the left side
+    #     self.weights[randRow, randCol] = ((random.random() * 2) - 1)
+    #     # Mirroring for right side
+    #     rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
+    #     self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
+
     def mutate(self):
-        randRow = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
-        # Only pick from the left side motors
-        randCol = random.randint(0, c.NUM_MOTOR_NEURONS // 2 - 1)
-        # Mutate the weight for the left side
+        randRow = random.randint(0, c.NUM_SENSOR_NEURONS-1)
+        randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
         self.weights[randRow, randCol] = ((random.random() * 2) - 1)
-        # Mirroring for right side
-        rightCol = randCol + c.NUM_MOTOR_NEURONS // 2
-        self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
 
     def set_id(self, newID):
         self.myID = newID
