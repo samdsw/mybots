@@ -114,7 +114,11 @@ class ROBOT:
 
         # ----- Reward diagonal gait (trot) -----
         if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
-                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs):
+                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs) or \
+                ("LeftLowerLeg2" in active_legs and "RightLowerLeg3" in active_legs) or \
+                ("RightLowerLeg2" in active_legs and "LeftLowerLeg3" in active_legs) or \
+                ("LeftLowerLeg3" in active_legs and "RightLowerLeg4" in active_legs) or \
+                ("RightLowerLeg3" in active_legs and "LeftLowerLeg4" in active_legs):
             fitness += 0.3
 
         # ----- Penalize for mor than 3 legs are grounded for trot gait -----
