@@ -17,7 +17,7 @@ B_AMP = np.pi/4 # Back Amplitude
 B_FREQ = 4 # Back Frequency
 B_POFF = 0 # Back Phase Offset
 
-NUMBER_OF_GENERATIONS = 5
+NUMBER_OF_GENERATIONS = 50
 DIRECT_OR_GUI = "DIRECT"
 
 POPULATION_SIZE = 15

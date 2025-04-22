@@ -65,45 +65,46 @@ class ROBOT:
         # Base speed reward
         fitness = xPosition / sim_time
 
-        # # ----- Leg contact detection & air/ground time penalization -----
-        # propulsion_reward = 0.0
-        # baseVelocity, _ = p.getBaseVelocity(self.robotId)
-        # active_legs = []
-        # current_time = time.time() - self.start_time
-        # for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2", "RightLowerLeg3", "LeftLowerLeg3"]:
-        #     contact = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
-        #     # Sensor object
-        #     sensor = self.sensors[leg_name]
-        #     if contact > 0.5:
-        #
-        #         #  Reward for propultion
-        #         propulsion_reward += max(0, baseVelocity[0]) * 0.8
-        #         active_legs.append(leg_name)
-        #
-        #         # Update contact state (on gorund)
-        #         ground_duration = current_time - sensor.last_air_time
-        #         sensor.last_contact_time = current_time
-        #
-        #         # Penalize if grounded too long (more than 3 seconds?)
-        #         if ground_duration > 3:
-        #             fitness -= 0.05 * ground_duration
-        #     else:
-        #         # Update contact state (in air)
-        #         air_duration = current_time - sensor.last_contact_time
-        #         sensor.last_air_time = current_time
-        #
-        #         # Penalize if airborne too long
-        #         if air_duration > 0.2:
-        #             fitness -= 0.1 * air_duration
-        #
-        # fitness += propulsion_reward
-        #
-        # # ----- Tilt penalty -----
-        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
-        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        # tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
-        #
-        # fitness -= tilt_penalty
+        # ----- Leg contact detection & air/ground time penalization -----
+        propulsion_reward = 0.0
+        baseVelocity, _ = p.getBaseVelocity(self.robotId)
+        active_legs = []
+        current_time = time.time() - self.start_time
+        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2",
+                         "RightLowerLeg3", "LeftLowerLeg3"]:
+            contact = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
+            # Sensor object
+            sensor = self.sensors[leg_name]
+            if contact > 0.5:
+
+                #  Reward for propultion
+                propulsion_reward += max(0, baseVelocity[0]) * 0.8
+                active_legs.append(leg_name)
+
+                # Update contact state (on gorund)
+                ground_duration = current_time - sensor.last_air_time
+                sensor.last_contact_time = current_time
+
+                # Penalize if grounded too long (more than 3 seconds?)
+                if ground_duration > 3:
+                    fitness -= 0.05 * ground_duration
+            else:
+                # Update contact state (in air)
+                air_duration = current_time - sensor.last_contact_time
+                sensor.last_air_time = current_time
+
+                # Penalize if airborne too long
+                if air_duration > 0.2:
+                    fitness -= 0.1 * air_duration
+
+        fitness += propulsion_reward
+
+        # ----- Tilt penalty -----
+        _, orientation = p.getBasePositionAndOrientation(self.robotId)
+        roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
+
+        fitness -= tilt_penalty
 
         # ----- Air/ground time penalties -----
 
@@ -111,10 +112,12 @@ class ROBOT:
         air_time_penalty = 0.0
         ground_time_penalty = 0.0
 
-        # # ----- Reward diagonal gait (trot) -----
-        # if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
-        #         ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs):
-        #     fitness += 0.3
+        # ----- Reward diagonal gait (trot) ----- (SHOULD I ADD MORE COMBOS?)
+        if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
+                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs) or \
+                ("LeftLowerLeg2" in active_legs and "RightLowerLeg3" in active_legs) or \
+                ("RightLowerLeg2" in active_legs and "LeftLowerLeg3" in active_legs):
+            fitness += 0.3
 
         # ----- Penalize for mor than 3 legs are grounded for trot gait -----
         # if sum(pyrosim.Get_Touch_Sensor_Value_For_Link(leg) > 0.5 for leg in self.sensors) > 3:
