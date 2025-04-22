@@ -3,7 +3,7 @@ import glob
 from parallelHillClimber import PARALLEL_HILL_CLIMBER
 
 matches = glob.glob("brain*.nndf")
-temp = False
+temp = True
 
 if matches and temp:
     path = matches[0]
