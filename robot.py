@@ -70,7 +70,8 @@ class ROBOT:
         baseVelocity, _ = p.getBaseVelocity(self.robotId)
         active_legs = []
         current_time = time.time() - self.start_time
-        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]:
+        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2",
+                         "RightLowerLeg3", "LeftLowerLeg3", "RightLowerLeg4", "LeftLowerLeg4"]:
             contact = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
             # Sensor object
             sensor = self.sensors[leg_name]
@@ -105,11 +106,11 @@ class ROBOT:
 
         fitness -= tilt_penalty
 
-        # ----- Air/gorund time penalties -----
-
-        # Initialize penalties
-        air_time_penalty = 0.0
-        ground_time_penalty = 0.0
+        # # ----- Air/gorund time penalties -----
+        #
+        # # Initialize penalties
+        # air_time_penalty = 0.0
+        # ground_time_penalty = 0.0
 
         # ----- Reward diagonal gait (trot) -----
         if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
