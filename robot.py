@@ -63,7 +63,7 @@ class ROBOT:
         sim_time = max(0.001, time.time() - self.start_time)
 
         # Base speed reward
-        fitness = xPosition / sim_time
+        fitness = (xPosition*-5) / sim_time
 
         # ----- Leg contact detection & air/ground time penalization -----
         propulsion_reward = 0.0
