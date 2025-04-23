@@ -11,6 +11,7 @@ if matches and temp:
     id = filename_without_ext[5:]
     os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py GUI {id} True 2&>1 &")
 else:
+    print("Start")
     phc = PARALLEL_HILL_CLIMBER()
     phc.evolve()
     phc.show_best()
