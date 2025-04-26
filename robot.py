@@ -63,14 +63,15 @@ class ROBOT:
         sim_time = max(0.001, time.time() - self.start_time)
 
         # Base speed reward
-        fitness = (xPosition*-5) / sim_time
+        fitness = (xPosition*(-5)) / sim_time
 
         # ----- Leg contact detection & air/ground time penalization -----
         propulsion_reward = 0.0
         baseVelocity, _ = p.getBaseVelocity(self.robotId)
         active_legs = []
         current_time = time.time() - self.start_time
-        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]:
+        for leg_name in ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2",
+                         "RightLowerLeg3", "LeftLowerLeg3"]:
             contact = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
             # Sensor object
             sensor = self.sensors[leg_name]
@@ -113,7 +114,9 @@ class ROBOT:
 
         # ----- Reward diagonal gait (trot) -----
         if ("RightLowerLeg1" in active_legs and "LeftLowerLeg2" in active_legs) or \
-                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs):
+                ("LeftLowerLeg1" in active_legs and "RightLowerLeg2" in active_legs) or \
+                ("RightLowerLeg2" in active_legs and "LeftLowerLeg3" in active_legs) or \
+                ("LeftLowerLeg2" in active_legs and "RightLowerLeg3" in active_legs):
             fitness += 0.3
 
         # ----- Penalize for mor than 3 legs are grounded for trot gait -----
