@@ -64,9 +64,9 @@ class SOLUTION:
         # Torsos
         pyrosim.Send_Cube(name="Torso1", pos=[0, 0, 1], size=[2, 1, .5])
 
-        # Right Leg 1
+        # Right Leg 1 CHANGING ALL JOINTAXIS FOR JOINTS FROM 101 TO 100
         pyrosim.Send_Joint(name="Torso1_RightLeg1", parent="Torso1", child="RightLeg1", type="revolute",
-                           position=[-0.75, 0.5, 1], jointAxis="1 0 1")
+                           position=[-0.75, 0.5, 1], jointAxis="1 0 0")
         pyrosim.Send_Cube(name="RightLeg1", pos=[0, 0.5, 0], size=[.2, 1, .2])
         pyrosim.Send_Joint(name="RightLeg1_RightLowerLeg1", parent="RightLeg1", child="RightLowerLeg1", type="revolute",
                            position=[0, 1, 0], jointAxis="0 1 0")
@@ -74,7 +74,7 @@ class SOLUTION:
 
         # Left Leg 1
         pyrosim.Send_Joint(name="Torso1_LeftLeg1", parent="Torso1", child="LeftLeg1", type="revolute",
-                           position=[-0.75, -0.5, 1], jointAxis = "1 0 1")
+                           position=[-0.75, -0.5, 1], jointAxis = "1 0 0")
         pyrosim.Send_Cube(name="LeftLeg1", pos=[0, -0.5, 0], size=[.2, 1, .2])
         pyrosim.Send_Joint(name="LeftLeg1_LeftLowerLeg1", parent="LeftLeg1", child="LeftLowerLeg1", type="revolute",
                            position=[0, -1, 0], jointAxis="0 1 0")
@@ -82,7 +82,7 @@ class SOLUTION:
 
         # Right Leg 2
         pyrosim.Send_Joint(name="Torso1_RightLeg2", parent="Torso1", child="RightLeg2", type="revolute",
-                           position=[0.75, 0.5, 1], jointAxis = "1 0 1")
+                           position=[0.75, 0.5, 1], jointAxis = "1 0 0")
         pyrosim.Send_Cube(name="RightLeg2", pos=[0, 0.5, 0], size=[.2, 1, .2])
         pyrosim.Send_Joint(name="RightLeg2_RightLowerLeg2", parent="RightLeg2", child="RightLowerLeg2", type="revolute",
                            position=[0, 1, 0], jointAxis="0 1 0")
@@ -90,7 +90,7 @@ class SOLUTION:
 
         # Left Leg 2
         pyrosim.Send_Joint(name="Torso1_LeftLeg2", parent="Torso1", child="LeftLeg2", type="revolute",
-                           position=[0.75, -0.5, 1], jointAxis="1 0 1")
+                           position=[0.75, -0.5, 1], jointAxis="1 0 0")
         pyrosim.Send_Cube(name="LeftLeg2", pos=[0, -0.5, 0], size=[.2, 1, .2])
         pyrosim.Send_Joint(name="LeftLeg2_LeftLowerLeg2", parent="LeftLeg2", child="LeftLowerLeg2", type="revolute",
                            position=[0, -1, 0], jointAxis="0 1 0")
@@ -100,46 +100,49 @@ class SOLUTION:
 
     def Generate_Brain(self):
         pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
+        #------
         # Sensor neurons (IDs will depend on your links)
-        pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso1")
-        pyrosim.Send_Sensor_Neuron(name=1, linkName="RightLeg1")
-        pyrosim.Send_Sensor_Neuron(name=2, linkName="RightLowerLeg1")
-        pyrosim.Send_Sensor_Neuron(name=3, linkName="LeftLeg1")
-        pyrosim.Send_Sensor_Neuron(name=4, linkName="LeftLowerLeg1")
-        pyrosim.Send_Sensor_Neuron(name=5, linkName="RightLeg2")
-        pyrosim.Send_Sensor_Neuron(name=6, linkName="RightLowerLeg2")
-        pyrosim.Send_Sensor_Neuron(name=7, linkName="LeftLeg2")
-        pyrosim.Send_Sensor_Neuron(name=8, linkName="LeftLowerLeg2")
-
-        # pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_RightLeg1")
-        # pyrosim.Send_Motor_Neuron(name=10, jointName="RightLeg1_RightLowerLeg1")
-        # pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_RightLeg2")
-        # pyrosim.Send_Motor_Neuron(name=12, jointName="RightLeg2_RightLowerLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso1")
+        # pyrosim.Send_Sensor_Neuron(name=1, linkName="RightLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=2, linkName="RightLowerLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=3, linkName="LeftLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=4, linkName="LeftLowerLeg1")
+        # pyrosim.Send_Sensor_Neuron(name=5, linkName="RightLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=6, linkName="RightLowerLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=7, linkName="LeftLeg2")
+        # pyrosim.Send_Sensor_Neuron(name=8, linkName="LeftLowerLeg2")
         #
-        # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_LeftLeg1")
-        # pyrosim.Send_Motor_Neuron(name=14, jointName="LeftLeg1_LeftLowerLeg1")
-        # pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
-        # pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
+        # # pyrosim.Send_Motor_Neuron(name=9, jointName="Torso1_RightLeg1")
+        # # pyrosim.Send_Motor_Neuron(name=10, jointName="RightLeg1_RightLowerLeg1")
+        # # pyrosim.Send_Motor_Neuron(name=11, jointName="Torso1_RightLeg2")
+        # # pyrosim.Send_Motor_Neuron(name=12, jointName="RightLeg2_RightLowerLeg2")
+        # #
+        # # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_LeftLeg1")
+        # # pyrosim.Send_Motor_Neuron(name=14, jointName="LeftLeg1_LeftLowerLeg1")
+        # # pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg2")
+        # # pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg2_LeftLowerLeg2")
+        #
+        # pyrosim.Send_Motor_Neuron(name=9, jointName="RightLeg1_RightLowerLeg1")
+        # pyrosim.Send_Motor_Neuron(name=10, jointName="LeftLeg1_LeftLowerLeg1")
+        # pyrosim.Send_Motor_Neuron(name=11, jointName="RightLeg2_RightLowerLeg2")
+        # pyrosim.Send_Motor_Neuron(name=12, jointName="LeftLeg2_LeftLowerLeg2")
+        #
+        # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg1")
+        # pyrosim.Send_Motor_Neuron(name=14, jointName="Torso1_LeftLeg1")
+        # pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_RightLeg2")
+        # pyrosim.Send_Motor_Neuron(name=16, jointName="Torso1_LeftLeg2")
+        #
+        #
+        #
+        # # Original loop
+        # for currentRow in range(0, c.NUM_SENSOR_NEURONS-1):  # iterating over sensors
+        #     # check on this it might be wrong
+        #     for currentColumn in range(0, c.NUM_MOTOR_NEURONS-1):  # iterating over motors
+        #         pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+        #                              targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
+        #                              weight=self.weights[currentRow][currentColumn])
 
-        pyrosim.Send_Motor_Neuron(name=9, jointName="RightLeg1_RightLowerLeg1")
-        pyrosim.Send_Motor_Neuron(name=10, jointName="LeftLeg1_LeftLowerLeg1")
-        pyrosim.Send_Motor_Neuron(name=11, jointName="RightLeg2_RightLowerLeg2")
-        pyrosim.Send_Motor_Neuron(name=12, jointName="LeftLeg2_LeftLowerLeg2")
-
-        pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg1")
-        pyrosim.Send_Motor_Neuron(name=14, jointName="Torso1_LeftLeg1")
-        pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_RightLeg2")
-        pyrosim.Send_Motor_Neuron(name=16, jointName="Torso1_LeftLeg2")
-
-
-
-        # Original loop
-        for currentRow in range(0, c.NUM_SENSOR_NEURONS-1):  # iterating over sensors
-            # check on this it might be wrong
-            for currentColumn in range(0, c.NUM_MOTOR_NEURONS-1):  # iterating over motors
-                pyrosim.Send_Synapse(sourceNeuronName=currentRow,
-                                     targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
-                                     weight=self.weights[currentRow][currentColumn])
+        # -----
 
         # # Changed loop to generate symmetric synapses
         # for row in range(c.NUM_SENSOR_NEURONS):
@@ -170,9 +173,10 @@ class SOLUTION:
     #     self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
 
     def mutate(self):
-        randRow = random.randint(0, c.NUM_SENSOR_NEURONS-1)
-        randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
-        self.weights[randRow, randCol] = ((random.random() * 2) - 1)
+        pass
+        # randRow = random.randint(0, c.NUM_SENSOR_NEURONS-1)
+        # randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
+        # self.weights[randRow, randCol] = ((random.random() * 2) - 1)
 
     def set_id(self, newID):
         self.myID = newID

@@ -23,7 +23,9 @@ class ROBOT:
         if isBest == "False":
             os.system(f"rm brain{solutionID}.nndf")
         self.fitness = 0
-        # self.roll = np.zeros[[c.TIME]]
+        self.orientationList = np.zeros(c.TIME)
+        # self.roll = np.zeros(c.TIME)
+        self.pitchList = np.zeros(c.TIME)
 
     def prepare_to_sense(self):
         self.sensors = {}
@@ -42,6 +44,8 @@ class ROBOT:
         # ----- Tilt penalty -----
         _, orientation = p.getBasePositionAndOrientation(self.robotId)
         roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        self.orientationList[step] = orientation
+        self.pitchList[step] = pitch
 
 
     def prepare_to_act(self):
@@ -87,6 +91,12 @@ class ROBOT:
                 if len(run) > 50:
                     fitness += .01
 
+        # ----- Tilt penalty -----
+        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
+        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        # tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
+        #
+        # fitness += tilt_penalty
 
 
 
@@ -122,13 +132,6 @@ class ROBOT:
         #             fitness += 0.1 * air_duration
         #
         # fitness += propulsion_reward
-
-        # ----- Tilt penalty -----
-        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
-        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        # tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
-        #
-        # fitness += tilt_penalty
 
         # ----- Air/gorund time penalties -----
 
