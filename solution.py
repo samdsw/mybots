@@ -115,6 +115,8 @@ class SOLUTION:
         pyrosim.End()
 
     def Generate_Brain(self):
+        # pass
+        #  ----------
         pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
         # Sensor neurons (IDs will depend on your links)
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso1")
@@ -155,6 +157,8 @@ class SOLUTION:
                                      targetNeuronName=currentColumn + c.NUM_SENSOR_NEURONS,
                                      weight=self.weights[currentRow][currentColumn])
 
+        # ----------
+
         # # Changed loop to generate symmetric synapses
         # for row in range(c.NUM_SENSOR_NEURONS):
         #     #  Only left side
@@ -171,7 +175,9 @@ class SOLUTION:
         #         # Send to mirrored right motor neuron
         #         pyrosim.Send_Synapse(
         #             sourceNeuronName=row, targetNeuronName=right_col + c.NUM_SENSOR_NEURONS,weight=right_weight)
+        #  ----------
         pyrosim.End()
+        #  ----------
 
     # def mutate(self):
     #     randRow = random.randint(0, c.NUM_SENSOR_NEURONS - 1)
@@ -184,6 +190,7 @@ class SOLUTION:
     #     self.weights[randRow, rightCol] = -self.weights[randRow, randCol]
 
     def mutate(self):
+        # pass
         randRow = random.randint(0, c.NUM_SENSOR_NEURONS-1)
         randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
         self.weights[randRow, randCol] = ((random.random() * 2) - 1)
