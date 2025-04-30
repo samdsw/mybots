@@ -44,8 +44,9 @@ class ROBOT:
         # ----- Tilt penalty -----
         _, orientation = p.getBasePositionAndOrientation(self.robotId)
         roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        self.orientationList[step] = orientation
-        self.pitchList[step] = pitch
+        self.pitchList[step] = np.rad2deg(pitch)
+        # self.orientationList[step] = orientation
+
 
 
     def prepare_to_act(self):
@@ -92,11 +93,9 @@ class ROBOT:
                     fitness += .01
 
         # ----- Tilt penalty -----
-        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
-        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        # tilt_penalty = (abs(roll) + abs(pitch)) * 0.4
-        #
-        # fitness += tilt_penalty
+        for tiltDegree in self.pitchList:
+            if abs(tiltDegree) > 25:
+                fitness += 0.01
 
 
 
