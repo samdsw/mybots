@@ -13,7 +13,6 @@ class SENSOR:
         self.last_air_time = 0.0
 
 
-
     def get_value(self, step):
         self.values[step] = pyrosim.Get_Touch_Sensor_Value_For_Link(self.linkName)
         # print(self.values)

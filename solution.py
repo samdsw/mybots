@@ -16,8 +16,8 @@ z = .5
 class SOLUTION:
     def __init__(self, nextAvailableID):
         self.weights = (np.random.rand(c.NUM_SENSOR_NEURONS, c.NUM_MOTOR_NEURONS) * 2) - 1
-        # self.weights = self.weights * 2 - 1
-        self.weights = self.weights * 8 - 4  # Range: [-4, 4]
+        self.weights = self.weights * 2 - 1
+        # self.weights = self.weights * 8 - 4  # Range: [-4, 4]
         self.myID = nextAvailableID
 
     def evaluate(self, mode):
@@ -133,22 +133,39 @@ class SOLUTION:
         pyrosim.Send_Sensor_Neuron(name=11, linkName="LeftLeg3")
         pyrosim.Send_Sensor_Neuron(name=12, linkName="LeftLowerLeg3")
 
+        # ----------
 
+        # pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg1")
+        # pyrosim.Send_Motor_Neuron(name=14, jointName="RightLeg1_RightLowerLeg1")
+        # pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg1")
+        # pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg1_LeftLowerLeg1")
+        #
+        # pyrosim.Send_Motor_Neuron(name=17, jointName="Torso1_RightLeg2")
+        # pyrosim.Send_Motor_Neuron(name=18, jointName="RightLeg2_RightLowerLeg2")
+        # pyrosim.Send_Motor_Neuron(name=19, jointName="Torso1_LeftLeg2")
+        # pyrosim.Send_Motor_Neuron(name=20, jointName="LeftLeg2_LeftLowerLeg2")
+        #
+        # pyrosim.Send_Motor_Neuron(name=21, jointName="Torso1_RightLeg3")
+        # pyrosim.Send_Motor_Neuron(name=22, jointName="RightLeg3_RightLowerLeg3")
+        # pyrosim.Send_Motor_Neuron(name=23, jointName="Torso1_LeftLeg3")
+        # pyrosim.Send_Motor_Neuron(name=24, jointName="LeftLeg3_LeftLowerLeg3")
+        #
         pyrosim.Send_Motor_Neuron(name=13, jointName="Torso1_RightLeg1")
-        pyrosim.Send_Motor_Neuron(name=14, jointName="RightLeg1_RightLowerLeg1")
-        pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_LeftLeg1")
-        pyrosim.Send_Motor_Neuron(name=16, jointName="LeftLeg1_LeftLowerLeg1")
-
-        pyrosim.Send_Motor_Neuron(name=17, jointName="Torso1_RightLeg2")
-        pyrosim.Send_Motor_Neuron(name=18, jointName="RightLeg2_RightLowerLeg2")
-        pyrosim.Send_Motor_Neuron(name=19, jointName="Torso1_LeftLeg2")
-        pyrosim.Send_Motor_Neuron(name=20, jointName="LeftLeg2_LeftLowerLeg2")
-
-        pyrosim.Send_Motor_Neuron(name=21, jointName="Torso1_RightLeg3")
-        pyrosim.Send_Motor_Neuron(name=22, jointName="RightLeg3_RightLowerLeg3")
-        pyrosim.Send_Motor_Neuron(name=23, jointName="Torso1_LeftLeg3")
+        pyrosim.Send_Motor_Neuron(name=14, jointName="Torso1_LeftLeg1")
+        pyrosim.Send_Motor_Neuron(name=15, jointName="Torso1_RightLeg2")
+        pyrosim.Send_Motor_Neuron(name=16, jointName="Torso1_LeftLeg2")
+        pyrosim.Send_Motor_Neuron(name=17, jointName="Torso1_RightLeg3")
+        pyrosim.Send_Motor_Neuron(name=18, jointName="Torso1_LeftLeg3")
+        pyrosim.Send_Motor_Neuron(name=19, jointName="RightLeg1_RightLowerLeg1")
+        pyrosim.Send_Motor_Neuron(name=20, jointName="LeftLeg1_LeftLowerLeg1")
+        pyrosim.Send_Motor_Neuron(name=21, jointName="RightLeg2_RightLowerLeg2")
+        pyrosim.Send_Motor_Neuron(name=22, jointName="LeftLeg2_LeftLowerLeg2")
+        pyrosim.Send_Motor_Neuron(name=23, jointName="RightLeg3_RightLowerLeg3")
         pyrosim.Send_Motor_Neuron(name=24, jointName="LeftLeg3_LeftLowerLeg3")
 
+
+
+        #
         # Original loop
         for currentRow in range(0, c.NUM_SENSOR_NEURONS-1):  # iterating over sensors
             # check on this it might be wrong

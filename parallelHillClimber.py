@@ -18,6 +18,7 @@ class PARALLEL_HILL_CLIMBER:
         self.start_time = time.time()
 
 
+
     def evolve(self):
         self.evaluate(self.parents)
         for currentGeneration in range(c.NUMBER_OF_GENERATIONS):

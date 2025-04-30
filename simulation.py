@@ -27,6 +27,7 @@ class SIMULATION:
         pyrosim.Prepare_To_Simulate(self.robot.robotId)
         self.robot.prepare_to_sense()
         self.robot.prepare_to_act()
+        self.contactList = np.zeros((4, c.TIME))
 
     def __del__(self):
         p.disconnect()
@@ -34,7 +35,7 @@ class SIMULATION:
     def run(self):
         for step in range(c.TIME):
             p.stepSimulation()
-            self.robot.sense(step)
+            self.robot.sense(step, self.contactList)
             self.robot.think()
             self.robot.act(step)
             # Comment out to speed up
@@ -42,7 +43,5 @@ class SIMULATION:
             # print("poop")
 
     def get_fitness(self):
-        fitness =self.robot.get_fitness(self.solutionID)
+        fitness =self.robot.get_fitness(self.solutionID, self.contactList)
         print(fitness)
-
-
