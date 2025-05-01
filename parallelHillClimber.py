@@ -11,6 +11,7 @@ class PARALLEL_HILL_CLIMBER:
         os.system("rm /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/brain*.nndf")
         os.system("rm /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/fitness*.txt")
         self.parents = {}
+        self.fitnessList = []
         self.nextAvailableID = 0
         for key in range(c.POPULATION_SIZE):
             self.parents[key] = SOLUTION(self.nextAvailableID)

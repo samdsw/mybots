@@ -80,7 +80,7 @@ class ROBOT:
         sim_time = max(0.001, time.time() - self.start_time)
 
         # Base speed reward
-        fitness = (xPosition*5) / sim_time
+        fitness = (xPosition*3) / sim_time
 
         # # ----- Leg contact air/ground time penalization -----
         for leg_idx in range(contactList.shape[0]):
@@ -90,12 +90,12 @@ class ROBOT:
 
             for run in runs:
                 if len(run) > 50:
-                    fitness += .01
+                    fitness += .1
 
         # ----- Tilt penalty -----
         for tiltDegree in self.pitchList:
             if abs(tiltDegree) > 25:
-                fitness += 0.01
+                fitness += 0.1
 
 
 
