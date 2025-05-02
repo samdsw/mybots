@@ -13,5 +13,4 @@ class MOTOR:
             jointName=self.jointName,
             controlMode=p.POSITION_CONTROL,
             targetPosition=desiredAngle,
-            maxForce=50)
-
+            maxForce=100)

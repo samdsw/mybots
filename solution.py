@@ -9,9 +9,6 @@ import constants as c
 length = 1
 width = 1
 height = 1
-x = 0
-y = 0
-z = .5
 
 class SOLUTION:
     def __init__(self, nextAvailableID):
@@ -29,15 +26,15 @@ class SOLUTION:
         with open(f"fitness{str(self.myID)}.txt", "r") as file:
             self.fitness = float(file.read())
 
-    def start_simulation(self, mode):
+    def start_simulation(self, mode, isBest):
         self.Create_World()
         self.Generate_Body()
         self.Generate_Brain()
         # mode = "GUI"
 
-        os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} 2&>1 &")
+        os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} {isBest} 2&>1 &")
         # NOT run in the background without &
-        # os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)}")
+        # os.system(f"/usr/local/bin/python3.9 /Users/samwill/Documents/UVMSeniorClasses/S8/mybots/simulate.py {mode} {str(self.myID)} {isBest}")
 
 
     def wait_for_simulation_to_end(self):
@@ -106,9 +103,12 @@ class SOLUTION:
         pyrosim.Send_Motor_Neuron(name=14, jointName="BackLeg_BackLowerLeg")
         pyrosim.Send_Motor_Neuron(name=15, jointName="LeftLeg_LeftLowerLeg")
         pyrosim.Send_Motor_Neuron(name=16, jointName="RightLeg_RightLowerLeg")
-        for currentRow in range(0, c.NUM_SENSOR_NEURONS):
-            for currentColumn in range(0, c.NUM_MOTOR_NEURONS):
-                pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn+c.NUM_SENSOR_NEURONS, weight=self.weights[currentRow][currentColumn])
+
+        for currentRow in range(c.NUM_SENSOR_NEURONS):
+            for currentColumn in range(c.NUM_MOTOR_NEURONS):
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+                                     targetNeuronName=currentColumn+c.NUM_SENSOR_NEURONS,
+                                     weight=self.weights[currentRow][currentColumn])
         pyrosim.End()
 
     def mutate(self):
@@ -116,6 +116,5 @@ class SOLUTION:
         randCol = random.randint(0, c.NUM_MOTOR_NEURONS-1)
         self.weights[randRow, randCol] = random.uniform(-1, 1)
 
-    def set_id(self):
-        self.myID = self.nextAvailableID
-        self.nextAvailableID += 1  # Increment for the next assignment
+    def set_id(self, newID):
+        self.myID = newID

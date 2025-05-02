@@ -9,9 +9,8 @@ import constants as c
 from world import WORLD
 from robot import ROBOT
 
-
 class SIMULATION:
-    def __init__(self, directOrGUI, solutionID):
+    def __init__(self, directOrGUI, solutionID, isBest):
         if directOrGUI == 'DIRECT':
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -21,7 +20,7 @@ class SIMULATION:
 
         self.solutionID = solutionID
 
-        self.robot = ROBOT(self.solutionID)
+        self.robot = ROBOT(self.solutionID, isBest)
         self.world = WORLD()
 
         pyrosim.Prepare_To_Simulate(self.robot.robotId)

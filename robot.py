@@ -4,17 +4,22 @@ import pyrosim.pyrosim as pyrosim
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
 import constants as c
+import time
+import numpy as np
 
 from sensor import SENSOR
 from motor import MOTOR
 
 class ROBOT:
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, isBest):
         self.sensors = None
         self.motors = None
         self.robotId = p.loadURDF("body.urdf")
         self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
         os.system(f"rm brain{solutionID}.nndf")
+        self.start_time = time.time()
+        if isBest == "False":
+            os.system(f"rm brain{solutionID}.nndf")
 
 
     def prepare_to_sense(self):
@@ -48,9 +53,16 @@ class ROBOT:
         # self.nn.Print()
 
     def get_fitness(self, solutionID):
+        # ----- Core position/time metrics (can use orientation lower) -----
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
         xPosition = basePosition[0]
+
+        sim_time = max(0.001, time.time() - self.start_time)
+
+        # Base speed reward
+        fitness = (xPosition*3) / sim_time
+
         # Writes robots final horizontal position to fitness.txt
         with open(f"tmp{solutionID}.txt", "w") as file:
             file.write(str(xPosition))
