@@ -56,7 +56,6 @@ class SOLUTION:
         self.y = 1
         self.z = 1.5
         pyrosim.Start_SDF("world.sdf")
-        # pyrosim.Send_Cube(name="Box", pos=[self.x, self.y, self.z], size=[length, width, height])
         pyrosim.End()
 
     def Generate_Body(self):
