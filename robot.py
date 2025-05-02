@@ -23,28 +23,28 @@ class ROBOT:
         if isBest == "False":
             os.system(f"rm brain{solutionID}.nndf")
         self.fitness = 0
-        self.orientationList = np.zeros(c.TIME)
+        # self.orientationList = np.zeros(c.TIME)
         # self.roll = np.zeros(c.TIME)
-        self.pitchList = np.zeros(c.TIME)
+        # self.pitchList = np.zeros(c.TIME)
 
     def prepare_to_sense(self):
         self.sensors = {}
         for linkName in pyrosim.linkNamesToIndices:
             self.sensors[linkName] = SENSOR(linkName)
 
-    def sense(self, step, contactList):
+    def sense(self, step):
         for sensor in self.sensors.values():
             sensor.get_value(step)
 
         # ----- Leg contact detection & air/ground time penalization -----
-        legs = ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]
-        for i, leg_name in enumerate(legs):
-            contactList[i, step] = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
+        # legs = ["RightLowerLeg1", "LeftLowerLeg1", "RightLowerLeg2", "LeftLowerLeg2"]
+        # for i, leg_name in enumerate(legs):
+        #     contactList[i, step] = pyrosim.Get_Touch_Sensor_Value_For_Link(leg_name)
 
         # ----- Tilt penalty -----
-        _, orientation = p.getBasePositionAndOrientation(self.robotId)
-        roll, pitch, _ = p.getEulerFromQuaternion(orientation)
-        self.pitchList[step] = np.rad2deg(pitch)
+        # _, orientation = p.getBasePositionAndOrientation(self.robotId)
+        # roll, pitch, _ = p.getEulerFromQuaternion(orientation)
+        # self.pitchList[step] = np.rad2deg(pitch)
         # self.orientationList[step] = orientation
 
 
@@ -71,7 +71,7 @@ class ROBOT:
         # self.nn.Print()
 
 
-    def get_fitness(self, solutionID, contactList):
+    def get_fitness(self, solutionID):
         # ----- Core position/time metrics (can use orientation lower) -----
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
@@ -82,20 +82,20 @@ class ROBOT:
         # Base speed reward
         fitness = (xPosition*5) / sim_time
 
-        # # ----- Leg contact air/ground time penalization -----
-        for leg_idx in range(contactList.shape[0]):
-            diffs = np.diff(contactList[leg_idx])
-            change_points = np.where(diffs != 0)[0] + 1
-            runs = np.split(contactList[leg_idx], change_points)
-
-            for run in runs:
-                if len(run) > 50:
-                    fitness += .01
-
-        # ----- Tilt penalty -----
-        for tiltDegree in self.pitchList:
-            if abs(tiltDegree) > 25:
-                fitness += 0.01
+        # # # ----- Leg contact air/ground time penalization -----
+        # for leg_idx in range(contactList.shape[0]):
+        #     diffs = np.diff(contactList[leg_idx])
+        #     change_points = np.where(diffs != 0)[0] + 1
+        #     runs = np.split(contactList[leg_idx], change_points)
+        #
+        #     for run in runs:
+        #         if len(run) > 50:
+        #             fitness += .01
+        #
+        # # ----- Tilt penalty -----
+        # for tiltDegree in self.pitchList:
+        #     if abs(tiltDegree) > 25:
+        #         fitness += 0.01
 
 
 
